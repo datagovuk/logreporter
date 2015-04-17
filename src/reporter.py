@@ -7,6 +7,7 @@ line_matcher = re.compile("^(?P<date>\d+-\d+-\d+ \d+:\d+:\d+),\d+ (?P<status>\w+
 syslog_matcher = re.compile("^\w+\s{1,2}\d+ \d+:\d+:\d+ .* (?P<date>\d+-\d+-\d+ \d+:\d+:\d+),\d+ (?P<status>\w+)\s*\[(?P<who>.*)\] (?P<message>.*)")
 apache_error_matcher = re.compile("\[(?P<date>\w{3} \w{3} \d+ \d+:\d+:\d+ \d{4})\] \[(?P<status>error)\] \[client (?P<who>\d+\.\d+\.\d+\.\d+)\] (?P<message>.*)")
 apache_matcher = re.compile("(?P<who>\d+\.\d+\.\d+.\d+) - - \[(?P<date>.*)\] \"(?P<message>.*)\" (?P<status>\d{3}) \d+ \".*\" \".*\"")
+celeryd_matcher = re.compile("^\[(?P<date>\d+-\d+-\d+ \d+:\d+:\d+),\d+: (?P<status>\w+).*\] (?P<who>[^:]+): (?P<message>.*)")
 
 def load_data(datadict):
     data = {"extra": ""}
@@ -26,10 +27,11 @@ def check_log_file(f, matches=["ERROR", "error", "500"]):
         if not line:
             break
 
-        m = (line_matcher.match(line) or 
-             syslog_matcher.match(line) or 
+        m = (line_matcher.match(line) or
+             syslog_matcher.match(line) or
              apache_error_matcher.match(line) or
-             apache_matcher.match(line))
+             apache_matcher.match(line) or
+             celeryd_matcher.match(line))
         if m:
             if m.groupdict()['status'] in matches:
                 if last:

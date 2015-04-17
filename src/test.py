@@ -42,6 +42,6 @@ class ReporterTest(unittest.TestCase):
         line = '127.0.0.1 - - [03/Aug/2014:22:22:56 +0100] "GET / HTTP/1.1" 500 1140 "-" "-"'
         results = list(check_log_file(StringIO(line), ['500']))
         self.assertEqual(1, len(results))
-        self.assertEqual(datetime.datetime(2014, 8, 3, 22, 22, 56, tzinfo=tzoffset(None, 3600)), results[0]['when'])
+        self.assertEqual(datetime.datetime(2014, 8, 3, 22, 22, 56), results[0]['when'])
         self.assertEqual('127.0.0.1', results[0]['who'])
         self.assertEqual('GET / HTTP/1.1', results[0]['message'])

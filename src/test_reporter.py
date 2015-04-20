@@ -4,7 +4,6 @@ import reporter as r
 
 apache_custom_line = '54.220.230.147 - - [14/Apr/2015:17:37:05 +0100] "GET /csw?request=GetRecordById&service=CSW&version=2.0.2&outputSchema=http%3A%2F%2Fwww.isotc211.org%2F2005%2Fgmd&elementSetName=full&id=13e23dc9-4e44-3f3e-8eb2-0e3d8461da9b HTTP/1.1" 200 17390 "-" "Jakarta Commons-HttpClient/3.0.1"'
 apache_error_line = '[Sat Sep 28 10:50:14 2013] [error] [client 81.102.118.195] Traceback (most recent call last):'
-#apache_error_line = '[Sat Sep 28 16:38:28 2013] [error] 2013-09-28 16:38:28,187 ERROR [root] Could not find resource 8e344515-bc90-4bd1-823d-554c92a19651'
 ckan_line = 'Nov 10 07:57:52 co-prod3 2014-11-10 07:57:52,860 ERROR [ckan.controllers.api] Bad request data: No request body data'
 celeryd_line = '[2015-04-13 12:20:10,743: ERROR/PoolWorker-72] archiver.update[archaeological-notification-areas-anas-for-east-sussex-and-brighton-and-hove2/ecca/cc21]: Error occurred during archiving resource: taxonomy'
 fetch_line = '2015-04-13 14:31:02,201 INFO  [ckanext.spatial.validation.validation] Validation passed'
@@ -13,8 +12,8 @@ syslog_line_cron = 'Apr 17 05:30:01 co-prod3 CRON[4754]: (www-data) CMD ( /home/
 syslog_line_ckan = 'Aug  6 05:27:33 co-prod3 2014-08-06 05:27:33,370 ERROR [ckan.lib.base] Foo'
 
 def _match(line):
-    return (r.line_matcher.match(line) or
-            r.syslog_matcher.match(line) or
+    return (r.fetch_gather_matcher.match(line) or
+            r.syslog_and_ckan_matcher.match(line) or
             r.apache_error_matcher.match(line) or
             r.apache_matcher.match(line) or
             r.celeryd_matcher.match(line))

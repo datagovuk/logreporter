@@ -3,7 +3,6 @@ import unittest
 from .reporter import check_log_file
 from StringIO import StringIO
 import datetime
-from dateutil.tz import tzoffset
 
 class ReporterTest(unittest.TestCase):
     def test_line_matcher(self):

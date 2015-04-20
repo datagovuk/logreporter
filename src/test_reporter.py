@@ -49,6 +49,7 @@ def test_match_gather():
     expected = {'date': '2014-09-19 11:12:14', 'status': 'DEBUG', 'message': 'Sent object 28d1b746-6f3c-4244-95b5-358b4f48331f to the fetch queue', 'who': 'ckanext.harvest.queue'}
     assert_equal(expected, res.groupdict())
 
+# not an error, so don't test
 #def test_match_syslog_cron():
 #    res = _match(syslog_line_cron)
 #    expected = []
